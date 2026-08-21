@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ember &amp; Row — Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Work+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/admin.css">
+</head>
+<body class="admin-body">
+
+<div class="admin-shell">
+  <aside class="admin-sidebar">
+    <a href="/index.html" class="brand admin-brand">Ember<span>&amp;</span>Row</a>
+    <nav class="admin-nav">
+      <button class="admin-nav-item active" data-view="overview">Overview</button>
+      <button class="admin-nav-item" data-view="orders">Orders</button>
+      <button class="admin-nav-item" data-view="tables">Tables</button>
+      <button class="admin-nav-item" data-view="reservations">Reservations</button>
+      <button class="admin-nav-item" data-view="inventory">Inventory</button>
+      <button class="admin-nav-item" data-view="menu">Menu</button>
+    </nav>
+    <a href="/index.html" class="btn btn-ghost btn-small admin-exit">&larr; Back to site</a>
+    <form action="/logout" method="post" style="margin-top:8px">
+      <button type="submit" class="btn btn-ghost btn-small" style="width:100%">Log out</button>
+    </form>
+  </aside>
+
+  <main class="admin-main">
+
+    <section class="admin-view active" id="view-overview">
+      <div class="admin-head">
+        <div>
+          <div class="eyebrow">Today</div>
+          <h2 id="overview-date">Daily overview</h2>
+        </div>
+        <button class="btn btn-ghost btn-small" onclick="loadOverview()">Refresh</button>
+      </div>
+      <div class="stat-grid">
+        <div class="stat-card"><span class="stat-label">Orders today</span><span class="stat-value" id="s-orders">&mdash;</span></div>
+        <div class="stat-card"><span class="stat-label">Completed</span><span class="stat-value" id="s-completed">&mdash;</span></div>
+        <div class="stat-card"><span class="stat-label">Cancelled</span><span class="stat-value" id="s-cancelled">&mdash;</span></div>
+        <div class="stat-card accent"><span class="stat-label">Revenue</span><span class="stat-value" id="s-revenue">&mdash;</span></div>
+        <div class="stat-card"><span class="stat-label">Avg order value</span><span class="stat-value" id="s-avg">&mdash;</span></div>
+      </div>
+
+      <div class="admin-columns">
+        <div class="panel">
+          <h3>Top sellers today</h3>
+          <div id="top-sellers" class="loading">Loading&hellip;</div>
+        </div>
+        <div class="panel">
+          <h3>Stock alerts</h3>
+          <div id="stock-alerts" class="loading">Loading&hellip;</div>
+        </div>
+      </div>
+
+      <div class="panel" style="margin-top:20px;max-width:420px">
+        <h3>Change your password</h3>
+        <form id="change-password-form">
+          <div class="field">
+            <label for="cp-current">Current password</label>
+            <input id="cp-current" type="password" required>
+          </div>
+          <div class="field">
+            <label for="cp-new">New password</label>
+            <input id="cp-new" type="password" required minlength="6">
+          </div>
+          <button type="submit" class="btn btn-primary btn-small">Update password</button>
+          <div class="form-msg" id="cp-msg"></div>
+        </form>
+      </div>
+    </section>
+
+    <section class="admin-view" id="view-orders">
+      <div class="admin-head">
+        <div><div class="eyebrow">Kitchen &amp; floor</div><h2>Orders</h2></div>
+        <div class="admin-head-actions">
+          <select id="order-filter" class="filter-select">
+            <option value="">All statuses</option>
+            <option value="PLACED">Placed</option>
+            <option value="CONFIRMED">Confirmed</option>
+            <option value="PREPARING">Preparing</option>
+            <option value="READY">Ready</option>
+            <option value="SERVED">Served</option>
+            <option value="COMPLETED">Completed</option>
+            <option value="CANCELLED">Cancelled</option>
+          </select>
+          <button class="btn btn-ghost btn-small" onclick="loadOrders()">Refresh</button>
+        </div>
+      </div>
+      <div class="admin-table-wrap">
+        <table class="admin-table" id="orders-table">
+          <thead><tr><th>Order</th><th>Type</th><th>Table</th><th>Items</th><th>Total</th><th>Status</th><th>Placed</th><th></th></tr></thead>
+          <tbody><tr><td colspan="8" class="loading">Loading orders&hellip;</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="admin-view" id="view-tables">
+      <div class="admin-head">
+        <div><div class="eyebrow">Floor</div><h2>Tables</h2></div>
+        <button class="btn btn-ghost btn-small" onclick="loadTablesAdmin()">Refresh</button>
+      </div>
+      <div class="admin-table-wrap">
+        <table class="admin-table" id="tables-table">
+          <thead><tr><th>Table</th><th>Location</th><th>Capacity</th><th>Status</th><th></th></tr></thead>
+          <tbody><tr><td colspan="5" class="loading">Loading tables&hellip;</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="admin-view" id="view-reservations">
+      <div class="admin-head">
+        <div><div class="eyebrow">Bookings</div><h2>Reservations</h2></div>
+        <button class="btn btn-ghost btn-small" onclick="loadReservations()">Refresh</button>
+      </div>
+      <div class="admin-table-wrap">
+        <table class="admin-table" id="reservations-table">
+          <thead><tr><th>Guest</th><th>Party</th><th>Table</th><th>When</th><th>Status</th><th></th></tr></thead>
+          <tbody><tr><td colspan="6" class="loading">Loading reservations&hellip;</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="admin-view" id="view-inventory">
+      <div class="admin-head">
+        <div><div class="eyebrow">Storeroom</div><h2>Inventory</h2></div>
+        <div class="admin-head-actions">
+          <label class="check-inline"><input type="checkbox" id="inv-low-only" onchange="loadInventory()"> Low stock only</label>
+          <button class="btn btn-ghost btn-small" onclick="loadInventory()">Refresh</button>
+        </div>
+      </div>
+      <div class="admin-table-wrap">
+        <table class="admin-table" id="inventory-table">
+          <thead><tr><th>Ingredient</th><th>In stock</th><th>Reorder at</th><th>Status</th><th>Restock</th></tr></thead>
+          <tbody><tr><td colspan="5" class="loading">Loading inventory&hellip;</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="admin-view" id="view-menu">
+      <div class="admin-head">
+        <div><div class="eyebrow">Kitchen</div><h2>Menu</h2></div>
+        <button class="btn btn-ghost btn-small" onclick="loadMenuAdmin()">Refresh</button>
+      </div>
+      <div class="admin-table-wrap">
+        <table class="admin-table" id="menu-table">
+          <thead><tr><th>Dish</th><th>Category</th><th>Price</th><th>Status</th><th></th></tr></thead>
+          <tbody><tr><td colspan="5" class="loading">Loading menu&hellip;</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="/js/admin.js"></script>
+</body>
+</html>

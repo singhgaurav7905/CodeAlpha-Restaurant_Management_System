@@ -1,0 +1,17 @@
+# Build output
+target/
+
+# Local secrets and environment overrides
+.env
+.env.*
+!.env.example
+
+# IDE and OS files
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

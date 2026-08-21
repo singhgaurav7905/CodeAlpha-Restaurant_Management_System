@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ember &amp; Row — Wood-fired kitchen &amp; table</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Work+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="wrap">
+    <a href="#top" class="brand">Ember<span>&amp;</span>Row</a>
+    <ul class="nav-links">
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#floor">Floor plan</a></li>
+      <li><a href="#reserve">Reservations</a></li>
+      <li><a href="#visit">Visit</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="/login.html" class="btn btn-ghost btn-small">Staff login</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">Open daily, 5pm &mdash; midnight</div>
+      <h1>Wood, fire, and<br><em>a table for you.</em></h1>
+      <p class="hero-lede">Ember &amp; Row is a wood-fired kitchen built around one grill, a short seasonal menu, and a room that fills up fast. Order ahead, reserve a table, or walk the floor plan to see what's free right now.</p>
+      <div class="hero-cta">
+        <a href="#menu" class="btn btn-primary">View the menu</a>
+        <a href="#reserve" class="btn btn-ghost">Reserve a table</a>
+      </div>
+      <div class="hero-meta">
+        <div><strong id="stat-tables">&mdash;</strong>tables open now</div>
+        <div><strong id="stat-items">&mdash;</strong>dishes on tonight's menu</div>
+        <div><strong>10</strong>seats at the counter</div>
+      </div>
+    </div>
+    <div class="specials-board">
+      <ul class="specials-list" id="specials-list">
+        <li><span class="loading">Loading tonight's board&hellip;</span></li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<section id="floor" class="tight">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">Live floor plan</div>
+        <h2>See what's free, right now</h2>
+      </div>
+      <button class="btn btn-ghost btn-small" onclick="loadTables()">Refresh</button>
+    </div>
+    <div class="floor-plan" id="floor-plan">
+      <div class="loading">Loading the room&hellip;</div>
+    </div>
+    <div class="legend">
+      <span><i class="dot status-AVAILABLE"></i>Available</span>
+      <span><i class="dot status-OCCUPIED"></i>Occupied</span>
+      <span><i class="dot status-RESERVED"></i>Reserved</span>
+      <span><i class="dot status-CLEANING"></i>Being cleaned</span>
+    </div>
+  </div>
+</section>
+
+<section id="menu" class="on-paper">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">The menu</div>
+        <h2>Short, seasonal, cooked over wood</h2>
+        <p>Tap a dish to add it to your order. Everything is cooked to order from what came in this morning.</p>
+      </div>
+    </div>
+    <div class="tabs" id="menu-tabs"></div>
+    <div class="menu-grid" id="menu-grid">
+      <div class="loading">Loading the menu&hellip;</div>
+    </div>
+  </div>
+</section>
+
+<section id="reserve">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">Reservations</div>
+        <h2>Book a table</h2>
+        <p>Tell us when you're coming and how many. We'll seat you at the smallest table that fits, or pick one from the floor plan above.</p>
+      </div>
+    </div>
+    <div style="max-width:640px">
+      <form class="form-card" id="reservation-form">
+        <div class="field-row">
+          <div class="field">
+            <label for="r-name">Name</label>
+            <input id="r-name" required placeholder="Full name">
+          </div>
+          <div class="field">
+            <label for="r-phone">Phone</label>
+            <input id="r-phone" required placeholder="+1 555 000 0000">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="r-party">Party size</label>
+            <input id="r-party" type="number" min="1" max="20" value="2" required>
+          </div>
+          <div class="field">
+            <label for="r-time">Date &amp; time</label>
+            <input id="r-time" type="datetime-local" required>
+          </div>
+        </div>
+        <div class="field">
+          <label for="r-requests">Special requests (optional)</label>
+          <textarea id="r-requests" rows="3" placeholder="Allergies, occasion, seating preference&hellip;"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Confirm reservation</button>
+        <div class="form-msg" id="reservation-msg"></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section id="visit" class="on-paper tight">
+  <div class="wrap footer-grid" style="margin-bottom:0">
+    <div>
+      <h3>Ember &amp; Row</h3>
+      <p>A wood-fired kitchen and a room built for long dinners. We keep the menu short so everything on it is worth ordering twice.</p>
+    </div>
+    <div>
+      <h4>Visit</h4>
+      <p>118 Foundry Lane<br>Prayagraj, Uttar Pradesh</p>
+      <p>Open daily, 5pm &mdash; midnight</p>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <p>hello@emberandrow.example</p>
+      <p>+91 98 7654 3210</p>
+      <a href="/login.html">Staff login &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-bottom">
+    <span>&copy; 2026 Ember &amp; Row</span>
+    <span>Built on the Restaurant Management System API</span>
+  </div>
+</footer>
+
+<button class="cart-toggle" id="cart-toggle" onclick="toggleCart(true)">
+  Your order <span class="cart-count" id="cart-count">0</span>
+</button>
+
+<div class="overlay" id="overlay" onclick="toggleCart(false)"></div>
+
+<aside class="cart-drawer" id="cart-drawer">
+  <div class="cart-head">
+    <h3>Your order</h3>
+    <button class="cart-close" onclick="toggleCart(false)">&times;</button>
+  </div>
+  <div class="cart-body" id="cart-body">
+    <div class="cart-empty">Nothing yet &mdash; add a dish from the menu.</div>
+  </div>
+  <div class="cart-foot">
+    <div class="cart-total"><span>Total</span><strong id="cart-total">$0.00</strong></div>
+
+    <div class="field">
+      <label for="o-type">Order type</label>
+      <select id="o-type">
+        <option value="DINE_IN">Dine in</option>
+        <option value="TAKEAWAY">Takeaway</option>
+        <option value="DELIVERY">Delivery</option>
+      </select>
+    </div>
+    <div class="field" id="o-table-field">
+      <label for="o-table">Table</label>
+      <select id="o-table"><option value="">Loading tables&hellip;</option></select>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label for="o-name">Name</label>
+        <input id="o-name" placeholder="Your name">
+      </div>
+      <div class="field">
+        <label for="o-phone">Phone</label>
+        <input id="o-phone" placeholder="Optional">
+      </div>
+    </div>
+    <button class="btn btn-primary btn-block" onclick="placeOrder()">Place order</button>
+    <div class="form-msg" id="order-msg"></div>
+  </div>
+</aside>
+
+<script src="/js/app.js"></script>
+</body>
+</html>
